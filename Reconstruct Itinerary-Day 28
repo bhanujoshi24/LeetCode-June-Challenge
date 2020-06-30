@@ -1,0 +1,26 @@
+class Solution {
+ 
+	HashMap<String, PriorityQueue<String>> map = new HashMap<>();
+	List<String> ans = new LinkedList<>();
+	
+	private void itineraryHelper (String s) {
+		
+		PriorityQueue<String> queue = map.get (s);
+		while (queue != null && !queue.isEmpty ()) {
+			itineraryHelper (queue.poll ());
+		}
+		
+		ans.add (0, s);
+	}
+	
+	public List<String> findItinerary (List<List<String>> tickets) {
+ 
+		for (List<String> ticket : tickets) {
+			map.put (ticket.get (0), map.getOrDefault (ticket.get (0), new PriorityQueue<>()));
+			map.get (ticket.get (0)).add (ticket.get (1));
+		}
+	
+		itineraryHelper ("JFK");
+		return ans;
+	}
+}
